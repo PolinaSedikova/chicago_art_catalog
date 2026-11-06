@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../domain/artwork_model.dart';
-import '../../../domain/i_artwork_repository.dart';
+import 'package:chicago_art_catalog/features/artwork/domain/artwork_model.dart';
+import 'package:chicago_art_catalog/features/artwork/domain/i_artwork_repository.dart';
 import 'artwork_list_state.dart';
 
 class ArtworkListCubit extends Cubit<ArtworkListState> {
@@ -9,14 +9,12 @@ class ArtworkListCubit extends Cubit<ArtworkListState> {
 
   ArtworkListCubit(this._repository) : super(const ArtworkListLoading());
 
-  /// Первичная загрузка каталога
   Future<void> loadArtworks() async {
     emit(const ArtworkListLoading());
     _allArtworks = await _repository.getAllArtworks();
     emit(ArtworkListLoaded(artworks: _allArtworks));
   }
 
-  /// Поиск по названию или автору
   void search(String query) {
     final trimmed = query.trim();
     if (trimmed.isEmpty) {
@@ -37,7 +35,6 @@ class ArtworkListCubit extends Cubit<ArtworkListState> {
     }
   }
 
-  /// Сброс поиска
   void clearSearch() {
     emit(ArtworkListLoaded(artworks: _allArtworks, query: ''));
   }

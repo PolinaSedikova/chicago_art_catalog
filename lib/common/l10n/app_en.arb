@@ -1,0 +1,22 @@
+{
+  "@@locale": "en",
+  "catalogTitle": "Art Institute of Chicago",
+  "searchHint": "Search artworks or artists...",
+  "searchClear": "Clear search",
+  "emptySearchResult": "Nothing found for \"{query}\"",
+  "@emptySearchResult": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "emptyCatalog": "Catalog is empty",
+  "artistLabel": "Artist",
+  "dateLabel": "Date",
+  "mediumLabel": "Medium",
+  "relatedArtworksTitle": "Other works by this artist",
+  "artworkNotFound": "Artwork not found",
+  "switchThemeTooltip": "Switch theme",
+  "switchLocaleTooltip": "Switch language"
+}

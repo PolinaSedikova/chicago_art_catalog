@@ -97,6 +97,78 @@ abstract class AppLocalizations {
     Locale('en'),
     Locale('ru'),
   ];
+
+  /// No description provided for @catalogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Art Institute of Chicago'**
+  String get catalogTitle;
+
+  /// No description provided for @searchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search artworks or artists...'**
+  String get searchHint;
+
+  /// No description provided for @searchClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search'**
+  String get searchClear;
+
+  /// No description provided for @emptySearchResult.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing found for \"{query}\"'**
+  String emptySearchResult(String query);
+
+  /// No description provided for @emptyCatalog.
+  ///
+  /// In en, this message translates to:
+  /// **'Catalog is empty'**
+  String get emptyCatalog;
+
+  /// No description provided for @artistLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Artist'**
+  String get artistLabel;
+
+  /// No description provided for @dateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get dateLabel;
+
+  /// No description provided for @mediumLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get mediumLabel;
+
+  /// No description provided for @relatedArtworksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Other works by this artist'**
+  String get relatedArtworksTitle;
+
+  /// No description provided for @artworkNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Artwork not found'**
+  String get artworkNotFound;
+
+  /// No description provided for @switchThemeTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch theme'**
+  String get switchThemeTooltip;
+
+  /// No description provided for @switchLocaleTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch language'**
+  String get switchLocaleTooltip;
 }
 
 class _AppLocalizationsDelegate
