@@ -14,11 +14,9 @@ class ChicagoArtApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 1. Регистрация репозитория в корне по интерфейсу
     return RepositoryProvider<IArtworkRepository>(
       create: (_) => ArtworkRepository(),
       child: MultiBlocProvider(
-        // 2. Глобальные провайдеры (тема, язык, каталог)
         providers: [
           BlocProvider<ThemeCubit>(
             create: (_) => ThemeCubit(),
@@ -29,7 +27,7 @@ class ChicagoArtApp extends StatelessWidget {
           BlocProvider<ArtworkListCubit>(
             create: (context) => ArtworkListCubit(
               context.read<IArtworkRepository>(),
-            )..loadArtworks(),
+            )..search(''),
           ),
         ],
         child: const _AppView(),
@@ -48,7 +46,7 @@ class _AppView extends StatelessWidget {
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'Art Institute of Chicago',
+      onGenerateTitle: (context) => AppLocalizations.of(context)!.catalogTitle,
       routerConfig: appRouter,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,

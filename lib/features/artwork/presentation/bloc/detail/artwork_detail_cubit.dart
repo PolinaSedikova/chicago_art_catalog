@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../domain/i_artwork_repository.dart';
+import 'package:chicago_art_catalog/features/artwork/domain/i_artwork_repository.dart';
 import 'artwork_detail_state.dart';
 
 class ArtworkDetailCubit extends Cubit<ArtworkDetailState> {
@@ -7,10 +7,11 @@ class ArtworkDetailCubit extends Cubit<ArtworkDetailState> {
 
   ArtworkDetailCubit(this._repository) : super(const ArtworkDetailLoading());
 
-  /// Загрузка картины по ID и поиск связанных картин того же автора
   Future<void> loadDetail(int id) async {
     emit(const ArtworkDetailLoading());
     final artwork = await _repository.getArtworkById(id);
+
+    if (isClosed) return;
 
     if (artwork == null) {
       emit(const ArtworkDetailNotFound());
@@ -21,6 +22,8 @@ class ArtworkDetailCubit extends Cubit<ArtworkDetailState> {
       currentId: artwork.id,
       artistDisplay: artwork.artistDisplay,
     );
+
+    if (isClosed) return;
 
     emit(ArtworkDetailLoaded(
       artwork: artwork,

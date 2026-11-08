@@ -1,41 +1,30 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:chicago_art_catalog/features/artwork/domain/artwork_model.dart';
 import 'package:chicago_art_catalog/features/artwork/domain/i_artwork_repository.dart';
 import 'artwork_list_state.dart';
 
 class ArtworkListCubit extends Cubit<ArtworkListState> {
   final IArtworkRepository _repository;
-  List<ArtworkModel> _allArtworks = [];
+  String _latestQuery = '';
 
   ArtworkListCubit(this._repository) : super(const ArtworkListLoading());
 
-  Future<void> loadArtworks() async {
+  /// Единый метод загрузки и поиска
+  Future<void> search([String query = '']) async {
+    _latestQuery = query;
     emit(const ArtworkListLoading());
-    _allArtworks = await _repository.getAllArtworks();
-    emit(ArtworkListLoaded(artworks: _allArtworks));
-  }
 
-  void search(String query) {
-    final trimmed = query.trim();
-    if (trimmed.isEmpty) {
-      emit(ArtworkListLoaded(artworks: _allArtworks, query: ''));
-      return;
-    }
+    final results = await _repository.searchArtworks(query);
 
-    final filtered = _allArtworks.where((artwork) {
-      final titleMatch = artwork.title.toLowerCase().contains(trimmed.toLowerCase());
-      final artistMatch = artwork.artistDisplay.toLowerCase().contains(trimmed.toLowerCase());
-      return titleMatch || artistMatch;
-    }).toList();
+    if (isClosed || query != _latestQuery) return;
 
-    if (filtered.isEmpty) {
-      emit(ArtworkListEmpty(query: trimmed));
+    if (results.isEmpty && query.trim().isNotEmpty) {
+      emit(ArtworkListEmpty(query: query.trim()));
     } else {
-      emit(ArtworkListLoaded(artworks: filtered, query: trimmed));
+      emit(ArtworkListLoaded(artworks: results, query: query));
     }
   }
 
   void clearSearch() {
-    emit(ArtworkListLoaded(artworks: _allArtworks, query: ''));
+    search('');
   }
 }

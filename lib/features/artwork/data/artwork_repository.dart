@@ -5,9 +5,21 @@ import 'artwork_mocks.dart';
 class ArtworkRepository implements IArtworkRepository {
   @override
   Future<List<ArtworkModel>> getAllArtworks() async {
-    // Имитируем небольшую задержку загрузки
     await Future.delayed(const Duration(milliseconds: 100));
     return mockArtworks;
+  }
+
+  @override
+  Future<List<ArtworkModel>> searchArtworks(String query) async {
+    await Future.delayed(const Duration(milliseconds: 100));
+    final trimmed = query.trim().toLowerCase();
+    if (trimmed.isEmpty) return mockArtworks;
+
+    return mockArtworks.where((artwork) {
+      final titleMatch = artwork.title.toLowerCase().contains(trimmed);
+      final artistMatch = artwork.artistDisplay.toLowerCase().contains(trimmed);
+      return titleMatch || artistMatch;
+    }).toList();
   }
 
   @override

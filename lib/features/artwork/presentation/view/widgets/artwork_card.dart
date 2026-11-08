@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:chicago_art_catalog/common/theme/image_sources.dart';
 import 'package:chicago_art_catalog/features/artwork/domain/artwork_model.dart';
 import 'package:chicago_art_catalog/features/artwork/presentation/utils/artwork_formatters.dart';
 
@@ -35,7 +36,7 @@ class ArtworkCard extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  artwork.initialLetter,
+                  ImageSources.getPlaceholderLetter(artwork.title),
                   style: theme.textTheme.titleLarge?.copyWith(
                     color: colorScheme.onPrimaryContainer,
                     fontWeight: FontWeight.bold,

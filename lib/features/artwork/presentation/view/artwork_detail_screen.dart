@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:chicago_art_catalog/common/theme/image_sources.dart';
 import 'package:chicago_art_catalog/features/artwork/domain/i_artwork_repository.dart';
 import 'package:chicago_art_catalog/features/artwork/presentation/bloc/detail/artwork_detail_cubit.dart';
 import 'package:chicago_art_catalog/features/artwork/presentation/bloc/detail/artwork_detail_state.dart';
@@ -45,7 +46,9 @@ class _ArtworkDetailView extends StatelessWidget {
       body: BlocBuilder<ArtworkDetailCubit, ArtworkDetailState>(
         builder: (context, state) {
           return switch (state) {
-            ArtworkDetailLoading() => const Center(child: CircularProgressIndicator()),
+            ArtworkDetailLoading() => const Center(
+                child: CircularProgressIndicator(),
+              ),
             ArtworkDetailNotFound() => Center(
                 child: Text(context.l10n.artworkNotFound),
               ),
@@ -55,7 +58,7 @@ class _ArtworkDetailView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Заглушка картины 
+                    // Заглушка картины
                     Container(
                       width: double.infinity,
                       height: 220,
@@ -65,7 +68,7 @@ class _ArtworkDetailView extends StatelessWidget {
                       ),
                       alignment: Alignment.center,
                       child: Text(
-                        artwork.initialLetter,
+                        ImageSources.getPlaceholderLetter(artwork.title),
                         style: theme.textTheme.displayLarge?.copyWith(
                           color: colorScheme.onPrimaryContainer,
                           fontWeight: FontWeight.bold,
@@ -73,7 +76,7 @@ class _ArtworkDetailView extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // Название
+                    // Название экспоната
                     Text(
                       artwork.title,
                       style: theme.textTheme.headlineSmall?.copyWith(
@@ -81,7 +84,7 @@ class _ArtworkDetailView extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    // Атрибуты
+                    // Атрибуты картины 
                     _AttributeTile(
                       label: context.l10n.artistLabel,
                       value: artwork.artistDisplay,
@@ -94,7 +97,7 @@ class _ArtworkDetailView extends StatelessWidget {
                       label: context.l10n.mediumLabel,
                       value: artwork.mediumDisplay,
                     ),
-                    // Секция связанных картин того же автора
+                    // Блок связанных работ того же автора
                     RelatedArtworksSection(relatedArtworks: relatedArtworks),
                   ],
                 ),

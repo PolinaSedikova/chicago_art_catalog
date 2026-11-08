@@ -5,18 +5,18 @@ import 'package:chicago_art_catalog/features/artwork/presentation/view/artwork_l
 final GoRouter appRouter = GoRouter(
   initialLocation: '/',
   routes: [
-    // Главный экран каталога
     GoRoute(
       path: '/',
       builder: (context, state) => const ArtworkListScreen(),
-    ),
-    // Экран детального просмотра (ID передаётся строго через URL)
-    GoRoute(
-      path: '/artwork/:id',
-      builder: (context, state) {
-        final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
-        return ArtworkDetailScreen(artworkId: id);
-      },
+      routes: [
+        GoRoute(
+          path: 'artwork/:id',
+          builder: (context, state) {
+            final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+            return ArtworkDetailScreen(artworkId: id);
+          },
+        ),
+      ],
     ),
   ],
 );
