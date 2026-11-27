@@ -21,6 +21,11 @@ flutter run -d chrome
 flutter run -d windows
 ```
 
+### 4. Запуск на Android (Таргет 3):
+```bash
+flutter run -d android
+```
+
 ##  Скриншоты
 ![alt text](screenshots/list_narrow.png)
 ![alt text](screenshots/list_wide_black.png)

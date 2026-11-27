@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:chicago_art_catalog/common/theme/image_sources.dart';
 import 'package:chicago_art_catalog/features/artwork/domain/artwork_model.dart';
 import 'package:chicago_art_catalog/features/artwork/presentation/utils/artwork_formatters.dart';
 
@@ -49,7 +48,7 @@ class RelatedArtworksSection extends StatelessWidget {
       leading: CircleAvatar(
         backgroundColor: colorScheme.secondaryContainer,
         child: Text(
-          ImageSources.getPlaceholderLetter(item.title),
+          item.initialLetter,
           style: TextStyle(color: colorScheme.onSecondaryContainer),
         ),
       ),

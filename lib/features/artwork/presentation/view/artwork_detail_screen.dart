@@ -23,6 +23,7 @@ class ArtworkDetailScreen extends StatelessWidget {
   }
 }
 
+
 class _ArtworkDetailView extends StatelessWidget {
   const _ArtworkDetailView();
 
@@ -58,7 +59,7 @@ class _ArtworkDetailView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Заглушка картины
+                    // Изображение картины
                     Container(
                       width: double.infinity,
                       height: 220,
@@ -66,14 +67,29 @@ class _ArtworkDetailView extends StatelessWidget {
                         color: colorScheme.primaryContainer,
                         borderRadius: BorderRadius.circular(16),
                       ),
+                      clipBehavior: Clip.antiAlias,
                       alignment: Alignment.center,
-                      child: Text(
-                        ImageSources.getPlaceholderLetter(artwork.title),
-                        style: theme.textTheme.displayLarge?.copyWith(
-                          color: colorScheme.onPrimaryContainer,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      child: artwork.imageId.isNotEmpty
+                          ? Image.network(
+                              ImageSources.getArtworkImageUrl(artwork.imageId),
+                              width: double.infinity,
+                              height: 220,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) => Text(
+                                artwork.initialLetter,
+                                style: theme.textTheme.displayLarge?.copyWith(
+                                  color: colorScheme.onPrimaryContainer,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            )
+                          : Text(
+                              artwork.initialLetter,
+                              style: theme.textTheme.displayLarge?.copyWith(
+                                color: colorScheme.onPrimaryContainer,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                     ),
                     const SizedBox(height: 20),
                     // Название экспоната
@@ -108,6 +124,7 @@ class _ArtworkDetailView extends StatelessWidget {
     );
   }
 }
+
 
 class _AttributeTile extends StatelessWidget {
   final String label;
