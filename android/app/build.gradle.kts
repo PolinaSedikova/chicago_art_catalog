@@ -36,6 +36,32 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+
+    packaging {
+        jniLibs {
+            keepDebugSymbols.add("**/*.so")
+        }
+    }
+}
+
+tasks.configureEach {
+    if (name.contains("strip", ignoreCase = true) && name.contains("DebugSymbols")) {
+        actions.clear()
+        doLast {
+            val buildDir = project.layout.buildDirectory.get().asFile
+            val mergedBase = File(buildDir, "intermediates/merged_native_libs")
+            val strippedBase = File(buildDir, "intermediates/stripped_native_libs")
+            if (mergedBase.exists()) {
+                mergedBase.walkTopDown()
+                    .filter { it.isDirectory && it.name == "lib" && it.parentFile?.name == "out" }
+                    .forEach { mergedLib ->
+                        val variant = mergedLib.parentFile.parentFile.parentFile.name
+                        val targetLib = File(strippedBase, "$variant/$name/out/lib")
+                        mergedLib.copyRecursively(targetLib, overwrite = true)
+                    }
+            }
+        }
+    }
 }
 
 kotlin {

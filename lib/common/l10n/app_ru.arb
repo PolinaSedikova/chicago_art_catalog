@@ -1,0 +1,22 @@
+{
+  "@@locale": "ru",
+  "catalogTitle": "Институт искусств в Чикаго",
+  "searchHint": "Поиск по названию или художнику...",
+  "searchClear": "Очистить поиск",
+  "emptySearchResult": "Ничего не найдено по запросу «{query}»",
+  "@emptySearchResult": {
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  },
+  "emptyCatalog": "Каталог пуст",
+  "artistLabel": "Художник",
+  "dateLabel": "Дата создания",
+  "mediumLabel": "Техника",
+  "relatedArtworksTitle": "Другие работы этого автора",
+  "artworkNotFound": "Экспонат не найден",
+  "switchThemeTooltip": "Переключить тему",
+  "switchLocaleTooltip": "Сменить язык"
+}
