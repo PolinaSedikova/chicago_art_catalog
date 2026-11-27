@@ -8,7 +8,6 @@ class ArtworkListCubit extends Cubit<ArtworkListState> {
 
   ArtworkListCubit(this._repository) : super(const ArtworkListLoading());
 
-  /// Единый метод загрузки и поиска
   Future<void> search([String query = '']) async {
     _latestQuery = query;
     emit(const ArtworkListLoading());

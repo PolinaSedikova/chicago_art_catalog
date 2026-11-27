@@ -18,12 +18,18 @@ class _ArtworkListScreenState extends State<ArtworkListScreen> {
   late final SearchController _searchController;
 
   @override
-  void initStateExisting() {}
-
-  @override
   void initState() {
     super.initState();
+    final state = context.read<ArtworkListCubit>().state;
+    final initialQuery = switch (state) {
+      ArtworkListLoaded(:final query) => query,
+      ArtworkListEmpty(:final query) => query,
+      _ => '',
+    };
     _searchController = SearchController();
+    if (initialQuery.isNotEmpty) {
+      _searchController.text = initialQuery;
+    }
   }
 
   @override
@@ -63,17 +69,6 @@ class _ArtworkListScreenState extends State<ArtworkListScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: BlocBuilder<ArtworkListCubit, ArtworkListState>(
               builder: (context, state) {
-                final currentQuery = switch (state) {
-                  ArtworkListLoaded(:final query) => query,
-                  ArtworkListEmpty(:final query) => query,
-                  _ => '',
-                };
-
-                // Синхронизируем текст в контроллере со стейтом при возврате на экран
-                if (_searchController.text != currentQuery) {
-                  _searchController.text = currentQuery;
-                }
-
                 return SearchBar(
                   controller: _searchController,
                   hintText: context.l10n.searchHint,
@@ -81,15 +76,22 @@ class _ArtworkListScreenState extends State<ArtworkListScreen> {
                   backgroundColor: WidgetStatePropertyAll(colorScheme.surfaceContainerHighest),
                   leading: const Icon(Icons.search),
                   trailing: [
-                    if (currentQuery.isNotEmpty)
-                      IconButton(
-                        tooltip: context.l10n.searchClear,
-                        icon: const Icon(Icons.clear),
-                        onPressed: () {
-                          _searchController.clear();
-                          context.read<ArtworkListCubit>().clearSearch();
-                        },
-                      ),
+                    ListenableBuilder(
+                      listenable: _searchController,
+                      builder: (context, _) {
+                        if (_searchController.text.isEmpty) {
+                          return const SizedBox.shrink();
+                        }
+                        return IconButton(
+                          tooltip: context.l10n.searchClear,
+                          icon: const Icon(Icons.clear),
+                          onPressed: () {
+                            _searchController.clear();
+                            context.read<ArtworkListCubit>().clearSearch();
+                          },
+                        );
+                      },
+                    ),
                   ],
                   onChanged: (value) => context.read<ArtworkListCubit>().search(value),
                 );
@@ -118,7 +120,7 @@ class _ArtworkListScreenState extends State<ArtworkListScreen> {
                   ArtworkListLoaded(:final artworks) => ListView.separated(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       itemCount: artworks.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: 8),
+                      separatorBuilder: (_, _) => const SizedBox(height: 8),
                       itemBuilder: (context, index) {
                         return ArtworkCard(artwork: artworks[index]);
                       },
